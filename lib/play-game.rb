@@ -4,12 +4,17 @@ def play_game
   puts "Rules: Guess a letter. If your guess is correct, that letter in the secret word is revealed. If your guess is incorrect, a part of the man is added. If you guess all of the correct letters before each part of the man is added, you win!"
   player = Player.new(get_name)
 
-  while game.hangman != Game::HANGMAN_CHANGES[6]
+  while game.hangman != Game::HANGMAN_CHANGES[6] && game.correct_guesses.include?("_")
     play_turn(game, player)
   end
 
-  puts game.hangman
-  puts "You lose"
+  if game.correct_guesses.include?("_") == false
+    puts game.correct_guesses.join("  ")
+    puts "You win!"
+  else
+    puts game.hangman
+    puts "You lose"
+  end
 end
 
 def play_turn(game, player)

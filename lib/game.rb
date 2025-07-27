@@ -1,20 +1,22 @@
 class Game
 
   VALID_GUESSES = ("A".."Z").to_a
+  HANGMAN_CHANGES = [["|---|", "|   |", "|", "|", "|", "|"], 
+["|---|", "|   |", "|   O", "|", "|", "|"], 
+["|---|", "|   |", "|   O", "|   |", "|", "|"], 
+["|---|", "|   |", "|   O", "|  /|", "|", "|"], 
+["|---|", "|   |", "|   O", "|  /|\\", "|", "|"], 
+["|---|", "|   |", "|   O", "|  /|\\", "|  /", "|"],
+["|---|", "|   |", "|   O", "|  /|\\", "|  / \\", "|"]]
 
-  attr_accessor :secret_word, :guesses, :wrong_guesses, :correct_guesses
+  attr_accessor :secret_word, :guesses, :wrong_guesses, :correct_guesses, :hangman, :HANGMAN_CHANGES
   
   def initialize
     @secret_word = get_random_string.upcase.split("")
     @guesses = Array.new
     @wrong_guesses = 0
     @correct_guesses = initialize_correct_guesses
-    @hangman = ["|---|", 
-"|   |", 
-"|", 
-"|", 
-"|", 
-"|"]
+    @hangman = HANGMAN_CHANGES[0]
   end
 
   def initialize_correct_guesses
@@ -39,7 +41,13 @@ class Game
 
   def check_correct_guess
     if self.secret_word.include?(self.guesses.last)
-      return self.secret_word.index(self.guesses.last)
+      matches = Array.new
+      self.secret_word.each_index do |index|
+        if self.secret_word[index] == self.guesses.last
+          matches.push(index)
+        end
+      end
+      return matches
     else
       return "incorrect"
     end
@@ -58,7 +66,7 @@ class Game
   end
 
   def get_random_string
-    file = File.open("../google-10000-english-no-swears.txt")
+    file = File.open("./google-10000-english-no-swears.txt")
     file.rewind
     array = Array.new
     

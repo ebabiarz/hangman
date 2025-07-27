@@ -9,6 +9,12 @@ class Game
     @guesses = Array.new
     @wrong_guesses = 0
     @correct_guesses = initialize_correct_guesses
+    @hangman = ["|---|", 
+"|   |", 
+"|", 
+"|", 
+"|", 
+"|"]
   end
 
   def initialize_correct_guesses
@@ -28,6 +34,14 @@ class Game
       get_guess
     else
       self.guesses.push(guess)
+    end
+  end
+
+  def check_correct_guess
+    if self.secret_word.include?(self.guesses.last)
+      return self.secret_word.index(self.guesses.last)
+    else
+      return "incorrect"
     end
   end
 

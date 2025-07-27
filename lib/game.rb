@@ -18,14 +18,14 @@ class Game
     return secret_word_length
   end
 
-  def get_guess(player)
+  def get_guess
     guess = gets.chomp.to_s.upcase
     if check_duplicate(guess) == true
       puts "You have already made that guess. Try again."
-      get_guess(player)
+      get_guess
     elsif check_valid_guess(guess) == false
       puts "That is not a valid guess. Try again."
-      get_guess(player)
+      get_guess
     else
       self.guesses.push(guess)
     end

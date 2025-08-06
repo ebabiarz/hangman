@@ -11,12 +11,20 @@ class Game
 
   attr_accessor :secret_word, :guesses, :wrong_guesses, :correct_guesses, :hangman, :HANGMAN_CHANGES
   
-  def initialize
-    @secret_word = get_random_string.upcase.split("")
-    @guesses = Array.new
-    @wrong_guesses = 0
-    @correct_guesses = initialize_correct_guesses
-    @hangman = HANGMAN_CHANGES[0]
+  def initialize(secret_word, guesses, wrong_guesses, correct_guesses, hangman)
+    if secret_word == nil
+      @secret_word = get_random_string.upcase.split("")
+      @guesses = Array.new
+      @wrong_guesses = 0
+      @correct_guesses = initialize_correct_guesses
+      @hangman = HANGMAN_CHANGES[0]
+    else
+      @secret_word = secret_word
+      @guesses = guesses
+      @wrong_guesses = wrong_guesses
+      @correct_guesses = correct_guesses
+      @hangman = hangman
+    end
   end
 
   def initialize_correct_guesses
@@ -24,6 +32,21 @@ class Game
     (self.secret_word.length).times {|char| secret_word_length.push("_")}
 
     return secret_word_length
+  end
+
+  def to_json
+    JSON.dump ({
+      :secret_word => @secret_word,
+      :guesses => @guesses,
+      :wrong_guesses => @wrong_guesses,
+      :correct_guesses => @correct_guesses,
+      :hangman => @hangman,
+    })
+  end
+
+  def self.from_json(string)
+    data = JSON.load string
+    self.new(data['secret_word'], data['guesses'], data['wrong_guesses'], data['correct_guesses'], data['hangman'])
   end
 
   def get_guess

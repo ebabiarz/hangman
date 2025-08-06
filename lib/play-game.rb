@@ -3,9 +3,14 @@ def play_game
   puts "HANGMAN"
   puts "Rules: Guess a letter. If your guess is correct, that letter in the secret word is revealed. If your guess is incorrect, a part of the man is added. If you guess all of the correct letters before each part of the man is added, you win!"
 
-  if load_game? == "y"
-    game = load_game
-    player = load_player
+  if File.exist?('./save/game.json')
+    if load_game? == "y" 
+      game = load_game
+      player = load_player
+    else
+      game = Game.new(nil, nil, nil, nil, nil)
+      player = Player.new(get_name)
+    end
   else
     game = Game.new(nil, nil, nil, nil, nil)
     player = Player.new(get_name)

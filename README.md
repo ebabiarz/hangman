@@ -1,3 +1,5 @@
 In this project, I used Ruby to create a command line version of the game Hangman. I used the knowledge gained from previous projects to build the game, utilizing classes and data structures to track progress through the game, and methods to move the game forward.
+
 I also used new concepts, files and serialization, for this project. To pick the random word, I used a provided text file containing thousands of words. The project selects all of the words between 5 and 12 characters and pushes them to an array. Then, one of those words is chosen at random to be used as the secret word.
+
 The project also uses JSON files to save and load the player's game. When the player chooses to save the game, the current state of the classes, which store the secret word, both correct and incorrect guesses, and number of wrong answers left, are dumped to JSON files. If the player decides to load a previous save, the JSON files are read, and the data is used to recreate the class instances and continue the game from that point.
